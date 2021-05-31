@@ -57,7 +57,7 @@ func RemoveHarakat(input string) string {
 			//Delete the matching diacritic while preserving order
 			runes = deleteRune(runes, i)
 			i--
-		//Remove Waslah from AlefWaslah
+		//Remove Waslah from AlefWaslah / Waslah is considered part of harakat/تَشْكِيل ?
 		case AlefWaslah:
 			runes[i] = Alef
 		}
@@ -67,18 +67,17 @@ func RemoveHarakat(input string) string {
 
 //Normalize ..
 func Normalize(input string) string {
-	input = RemoveHarakat(input)
 	runes := bytes.Runes([]byte(input))
 	for i := 0; i < len(runes); i++ {
 		//fmt.Println(string(runes[i]))
 		switch runes[i] {
 		// diacritics
-		case Tatweel:
+		case Tatweel, DaggerAlif, TanwinKasrah, TanwinDammah, TanwinFatḥah, Fatḥah, Dammah, Kasrah, Shaddah, Sukun:
 			//Delete the matching diacritic while preserving order
 			runes = deleteRune(runes, i)
 			i--
 		//Normalizable letters
-		case AlefMad, AlefHamzaAbove, AlefHamzaBelow:
+		case AlefMad, AlefHamzaAbove, AlefHamzaBelow, AlefWaslah:
 			runes[i] = Alef
 		case DotlessYae:
 			runes[i] = Yae
