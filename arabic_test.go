@@ -194,3 +194,10 @@ func ExampleNormalize() {
 	// Output:
 	// احمد
 }
+
+func ExampleRemoveHarakat() {
+	normalized := RemoveHarakat("سَنواتٌ")
+	fmt.Println(normalized)
+	// Output:
+	// سنوات
+}
