@@ -1,0 +1,2 @@
+//Package arabic ..
+package arabic
