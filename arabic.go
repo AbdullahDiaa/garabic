@@ -3,6 +3,8 @@ package arabic
 
 import (
 	"bytes"
+	"fmt"
+	"math"
 	"unicode"
 
 	"golang.org/x/text/runes"
@@ -60,6 +62,23 @@ const (
 	AlefWaslah = '\u0671'
 )
 
+//Numbers in Arabic
+var _smallNumbers = []string{
+	"صفر", "واحد", "اثنان", "ثلاثة", "أربعة",
+	"خمسة", "ستة", "سبعة", "ثمانية", "تسعة",
+	"عشرة", "أحد عشر", "اثنا عشر", "ثلاثة عشر", "أربعة عشر",
+	"خمسة عشر", "ستة عشر", "سبعة عشر", "ثمانية عشر", "تسعة عشر",
+}
+
+var _tens = []string{
+	"", "", "عشرون", "ثلاثون", "أربعون", "خمسون",
+	"ستون", "سبعون", "ثمانون", "تسعون",
+}
+
+var _scaleNumbers = []string{
+	"", "ألف", "مليون", "مليار",
+}
+
 //RemoveHarakat ...
 func RemoveHarakat(input string) string {
 	input = normalizeTransform(input)
@@ -110,4 +129,38 @@ func deleteRune(runes []rune, i int) []rune {
 	}
 	runes = append(runes[:i], runes[i+1:]...)
 	return runes
+}
+
+// SpellNumber will transform a number into a readable arabic version
+func SpellNumber(num int) string {
+
+	if num == 0 {
+		return _smallNumbers[0]
+	}
+
+	var stringOfNum string
+	if num < 0 {
+		stringOfNum += "سالب "
+	}
+
+	var groups [4]int
+
+	positive := math.Abs(float64(num))
+
+	for i := 0; i < 4; i++ {
+		groups[i] = int(math.Mod(positive, 1000))
+		positive /= 1000
+	}
+	fmt.Println("Int group:", groups)
+
+	return stringOfNum
+}
+
+func digitGroup2Text(group int) (ret string) {
+
+	return
+}
+
+func intMod(x, y int) int {
+	return int(math.Mod(float64(x), float64(y)))
 }

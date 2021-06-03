@@ -48,7 +48,6 @@ func TestNormalizeBigText(t *testing.T) {
 
 //TestNormalize ...
 func TestNormalize(t *testing.T) {
-
 	t.Log("Given an arabic string it should be normalized")
 	{
 		for i, tt := range normalizeTestCases {
@@ -111,6 +110,21 @@ func TestDeleteRune(t *testing.T) {
 				)
 			} else {
 				t.Logf("\t%s\t(%s)\tShould be %v", succeed, tt.description, tt.expected)
+			}
+		}
+	}
+}
+
+func TestSpellNumber(t *testing.T) {
+	t.Log("Given a number it should be return readable string of it in arabic")
+	{
+		for i, tt := range spellNumberTestCases {
+			textOfNum := SpellNumber(tt.input)
+			t.Logf("\tTest: %d\t Spelling Number %d", i, tt.input)
+			if textOfNum != tt.expected {
+				t.Errorf("\t%s\t\tShould be converted to %s, got %s instead", failed, tt.expected, textOfNum)
+			} else {
+				t.Logf("\t%s\t\tShould be converted to %s", succeed, tt.expected)
 			}
 		}
 	}

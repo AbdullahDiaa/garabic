@@ -96,3 +96,18 @@ var normalizeTestCases = []struct {
 		expected:    "انني اشكر ربي دائما، لكنني منزعجه.. الا يحق لي التعبير عن ضيق صدري؟!",
 	},
 }
+
+//spellNumberTestCases contains all test cases for reading a number in arabic
+var spellNumberTestCases = []struct {
+	input    int
+	expected string
+}{
+	{
+		input:    0,
+		expected: "صفر",
+	},
+	{
+		input:    -1234567,
+		expected: "سالب ",
+	},
+}
