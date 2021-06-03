@@ -3,13 +3,43 @@ package arabic
 
 import (
 	"bytes"
+	"unicode"
+
+	"golang.org/x/text/runes"
+	"golang.org/x/text/transform"
 )
 
-const (
-	/*
-		Normalizable Arabic letters
-	*/
+// Normalizable Arabic letters
+var normalizable = &unicode.RangeTable{
+	R16: []unicode.Range16{
+		/*
+			Arabic Harakat (Harakat تَشْكِيل)
+		*/
+		//Tatweel => ـ
+		{0x0640, 0x0640, 1},
+		//TanwinFatḥah
+		{0x064B, 0x64B, 1},
+		//TanwinDammah
+		{0x064C, 0x64C, 1},
+		//TanwinKasrah
+		{0x064D, 0x64D, 1},
+		//Fatḥah
+		{0x064E, 0x64E, 1},
+		//Dammah
+		{0x064F, 0x64F, 1},
+		//Kasrah
+		{0x0650, 0x650, 1},
+		//Shaddah
+		{0x0651, 0x651, 1},
+		//Sukun
+		{0x0652, 0x652, 1},
+		//DaggerAlif =>
+		{0x0670, 0x0670, 1},
+	},
+}
 
+// Normalizable letters [alef/Yae/Hae]
+const (
 	//Alef  => ا
 	Alef = '\u0627'
 	//AlefMad =>  آ
@@ -26,37 +56,17 @@ const (
 	TehMarbuta = '\u0629'
 	//Hae => ه
 	Hae = '\u0647'
-	//Tatweel => ـ
-	Tatweel = '\u0640'
-
-	/*
-		Arabic Harakat (Harakat تَشْكِيل)
-	*/
-	Fatḥah     = '\u064E'
-	Kasrah     = '\u0650'
-	Dammah     = '\u064F'
-	DaggerAlif = '\u0670'
-	Sukun      = '\u0652'
-
-	TanwinFatḥah = '\u064B'
-	TanwinDammah = '\u064C'
-	TanwinKasrah = '\u064D'
-	Shaddah      = '\u0651'
 	//AlefWaslah ٱ / Waslah is considered part of harakat/تَشْكِيل ?
 	AlefWaslah = '\u0671'
 )
 
 //RemoveHarakat ...
 func RemoveHarakat(input string) string {
+	input = normalizeTransform(input)
 	runes := bytes.Runes([]byte(input))
 	for i := 0; i < len(runes); i++ {
 		//fmt.Println(string(runes[i]))
 		switch runes[i] {
-		// diacritics
-		case DaggerAlif, TanwinKasrah, TanwinDammah, TanwinFatḥah, Fatḥah, Dammah, Kasrah, Shaddah, Sukun:
-			//Delete the matching diacritic while preserving order
-			runes = deleteRune(runes, i)
-			i--
 		//Remove Waslah from AlefWaslah / Waslah is considered part of harakat/تَشْكِيل ?
 		case AlefWaslah:
 			runes[i] = Alef
@@ -67,15 +77,11 @@ func RemoveHarakat(input string) string {
 
 //Normalize ..
 func Normalize(input string) string {
+	input = normalizeTransform(input)
 	runes := bytes.Runes([]byte(input))
 	for i := 0; i < len(runes); i++ {
 		//fmt.Println(string(runes[i]))
 		switch runes[i] {
-		// diacritics
-		case Tatweel, DaggerAlif, TanwinKasrah, TanwinDammah, TanwinFatḥah, Fatḥah, Dammah, Kasrah, Shaddah, Sukun:
-			//Delete the matching diacritic while preserving order
-			runes = deleteRune(runes, i)
-			i--
 		//Normalizable letters
 		case AlefMad, AlefHamzaAbove, AlefHamzaBelow, AlefWaslah:
 			runes[i] = Alef
@@ -87,6 +93,14 @@ func Normalize(input string) string {
 	}
 	//@TODO: optimize runes by converting it to bytes, arabic letters use only 2 bytes
 	return string(runes)
+}
+
+// Use text/transform algorithm for faster normalization
+func normalizeTransform(input string) string {
+	//Use text/transform algorithm for faster normalization
+	tm := transform.Chain(runes.Remove(runes.In(normalizable)))
+	input, _, _ = transform.String(tm, input)
+	return input
 }
 
 //deleteRune will delete a rune from the slice while keeping the order of runes

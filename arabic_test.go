@@ -2,6 +2,7 @@ package arabic
 
 import (
 	"fmt"
+	"io/ioutil"
 	"reflect"
 	"testing"
 )
@@ -24,6 +25,25 @@ func TestRemoveHarakat(t *testing.T) {
 			}
 		}
 	}
+}
+
+//TestNormalizeBigText ..
+func TestNormalizeBigText(t *testing.T) {
+	originalArabicText, err := ioutil.ReadFile("test_data/bigText.txt")
+	if err != nil {
+		t.Errorf("\t%s\t Reading file failed with error:(%s)\t", failed, err)
+	}
+	preNormalizedArabicText, err := ioutil.ReadFile("test_data/normalizedBigText.txt")
+	if err != nil {
+		t.Errorf("\t%s\t Reading prenormalized file failed with error:(%s)\t", failed, err)
+	}
+	//Try to normalize test
+	normalized := Normalize(string(originalArabicText))
+
+	if normalized != string(preNormalizedArabicText) {
+		t.Errorf("\t%s\t Normalized text doesn't match [length of the normalized version: %d\t length of the original prenormalized version: %d\t", failed, len(normalized), len(preNormalizedArabicText))
+	}
+	t.Logf("\t%s\t Should normalize all text file\t", succeed)
 }
 
 //TestNormalize ...
@@ -54,15 +74,15 @@ func TestDeleteRune(t *testing.T) {
 	}{
 		{
 			description: "Deleting rune with index 0 that exists in the array",
-			input:       []rune{'a', 'b'},
+			input:       []rune{'م', 'ح'},
 			index:       0,
-			expected:    []rune{'b'},
+			expected:    []rune{'ح'},
 		},
 		{
 			description: "Deleting rune with index 3 that exists in the array",
-			input:       []rune{'a', 'b', 'c', 'd', 'e'},
+			input:       []rune{'م', 'ا', 'د', 'ة', 'ن'},
 			index:       3,
-			expected:    []rune{'a', 'b', 'c', 'e'},
+			expected:    []rune{'م', 'ا', 'د', 'ن'},
 		},
 		{
 			description: "Deleting rune with index 0 that doesn't exist in the array",
@@ -72,9 +92,9 @@ func TestDeleteRune(t *testing.T) {
 		},
 		{
 			description: "Deleting rune with index 0 that's more than array length",
-			input:       []rune{'a', 'v'},
+			input:       []rune{'أ', 'ب'},
 			index:       10,
-			expected:    []rune{'a', 'v'},
+			expected:    []rune{'أ', 'ب'},
 		},
 	}
 
@@ -111,6 +131,17 @@ func BenchmarkRemoveHarakat(b *testing.B) {
 		}
 	}
 }
+
+func BenchmarkNormalizeBigText(b *testing.B) {
+	originalArabicText, err := ioutil.ReadFile("test_data/bigText.txt")
+	if err != nil {
+		b.Errorf("\t%s\t Reading file failed with error:(%s)\t", failed, err)
+	}
+	for i := 0; i < b.N; i++ {
+		Normalize(string(originalArabicText))
+	}
+}
+
 func ExampleNormalize() {
 	normalized := Normalize("أحمد")
 	fmt.Println(normalized)

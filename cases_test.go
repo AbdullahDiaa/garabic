@@ -1,5 +1,6 @@
 package arabic
 
+//removeHarakatTestCases contains all test cases for TestRemoveHarakat function
 var removeHarakatTestCases = []struct {
 	description string
 	input       string
@@ -33,6 +34,7 @@ var removeHarakatTestCases = []struct {
 	},
 }
 
+//normalizeTestCases contains all test cases for TestNormalize function
 var normalizeTestCases = []struct {
 	description string
 	input       string
