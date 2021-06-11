@@ -63,12 +63,12 @@ const (
 )
 
 //Number groups in Arabic
-var _smallNumbers = []string{
+var _zeroToNine = []string{
 	"صفر", "واحد", "اثنان", "ثلاثة", "أربعة",
 	"خمسة", "ستة", "سبعة", "ثمانية", "تسعة",
 }
 
-var _smallNumbers2 = []string{
+var _elevenToNineteen = []string{
 	"عشرة", "أحد عشر", "اثنا عشر", "ثلاثة عشر", "أربعة عشر",
 	"خمسة عشر", "ستة عشر", "سبعة عشر", "ثمانية عشر", "تسعة عشر",
 }
@@ -139,15 +139,16 @@ func deleteRune(runes []rune, i int) []rune {
 // SpellNumber will transform a number into a readable arabic version
 func SpellNumber(input int) string {
 
-	if input == 0 {
-		return _smallNumbers[0]
-	}
-
 	var stringOfNum []string
 
 	if input < 0 {
 		stringOfNum = append(stringOfNum, "سالب")
 		input *= -1
+	}
+
+	if input < 10 {
+		stringOfNum = append(stringOfNum, _zeroToNine[input])
+		return strings.TrimSpace(strings.Join(stringOfNum, " "))
 	}
 
 	groups := []int{}
@@ -186,16 +187,18 @@ func SpellNumber(input int) string {
 
 		switch tens {
 		case 0:
-			stringOfNum = append(stringOfNum, _smallNumbers[zeros])
+			if zeros > 1 {
+				stringOfNum = append(stringOfNum, _zeroToNine[zeros])
+			}
 		case 1:
-			stringOfNum = append(stringOfNum, _smallNumbers2[zeros])
+			stringOfNum = append(stringOfNum, _elevenToNineteen[zeros])
 			break
 		default:
 			if zeros > 0 {
-				word := fmt.Sprintf("و %s و %s", _smallNumbers[zeros], _tens[tens])
+				word := fmt.Sprintf("و %s و %s", _zeroToNine[zeros], _tens[tens])
 				stringOfNum = append(stringOfNum, word)
 			} else {
-				stringOfNum = append(stringOfNum, _tens[tens])
+				stringOfNum = append(stringOfNum, "و", _tens[tens])
 			}
 			break
 		}
