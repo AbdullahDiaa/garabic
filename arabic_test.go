@@ -169,3 +169,10 @@ func ExampleRemoveHarakat() {
 	// Output:
 	// سنوات
 }
+
+func ExampleSpellNumber() {
+	numberInWords := SpellNumber(100)
+	fmt.Println(numberInWords)
+	// Output:
+	// مئة
+}
