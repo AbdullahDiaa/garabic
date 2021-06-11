@@ -84,7 +84,7 @@ var _scaleNumbers = []string{
 	"", "ألف", "مليون", "مليار",
 }
 
-//RemoveHarakat ...
+//RemoveHarakat will remove harakat from arabic text
 func RemoveHarakat(input string) string {
 	input = normalizeTransform(input)
 	runes := bytes.Runes([]byte(input))
@@ -99,7 +99,7 @@ func RemoveHarakat(input string) string {
 	return string(runes)
 }
 
-//Normalize ..
+//Normalize will prepare an arabic text to search and index
 func Normalize(input string) string {
 	input = normalizeTransform(input)
 	runes := bytes.Runes([]byte(input))
