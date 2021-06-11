@@ -4,7 +4,7 @@ package arabic
 import (
 	"bytes"
 	"fmt"
-	"math"
+	"strings"
 	"unicode"
 
 	"golang.org/x/text/runes"
@@ -62,10 +62,13 @@ const (
 	AlefWaslah = '\u0671'
 )
 
-//Numbers in Arabic
+//Number groups in Arabic
 var _smallNumbers = []string{
 	"صفر", "واحد", "اثنان", "ثلاثة", "أربعة",
 	"خمسة", "ستة", "سبعة", "ثمانية", "تسعة",
+}
+
+var _smallNumbers2 = []string{
 	"عشرة", "أحد عشر", "اثنا عشر", "ثلاثة عشر", "أربعة عشر",
 	"خمسة عشر", "ستة عشر", "سبعة عشر", "ثمانية عشر", "تسعة عشر",
 }
@@ -74,7 +77,9 @@ var _tens = []string{
 	"", "", "عشرون", "ثلاثون", "أربعون", "خمسون",
 	"ستون", "سبعون", "ثمانون", "تسعون",
 }
-
+var _hundreds = []string{
+	"", "مئة", "مئتان", "ثلاثمئة", "أربعمئة", "خمسمئة", "ستمئة", "سبعمئة", "ثمانمئة", "تسعمئة",
+}
 var _scaleNumbers = []string{
 	"", "ألف", "مليون", "مليار",
 }
@@ -132,35 +137,75 @@ func deleteRune(runes []rune, i int) []rune {
 }
 
 // SpellNumber will transform a number into a readable arabic version
-func SpellNumber(num int) string {
+func SpellNumber(input int) string {
 
-	if num == 0 {
+	if input == 0 {
 		return _smallNumbers[0]
 	}
 
-	var stringOfNum string
-	if num < 0 {
-		stringOfNum += "سالب "
+	var stringOfNum []string
+
+	if input < 0 {
+		stringOfNum = append(stringOfNum, "سالب")
+		input *= -1
 	}
 
-	var groups [4]int
+	groups := []int{}
 
-	positive := math.Abs(float64(num))
-
-	for i := 0; i < 4; i++ {
-		groups[i] = int(math.Mod(positive, 1000))
-		positive /= 1000
+	for input > 0 {
+		groups = append(groups, input%1000)
+		input = input / 1000
 	}
-	fmt.Println("Int group:", groups)
 
-	return stringOfNum
-}
+	for i := len(groups) - 1; i >= 0; i-- {
+		//Get each group with its decimal position
+		group := groups[i]
+		if group == 0 {
+			continue
+		}
 
-func digitGroup2Text(group int) (ret string) {
+		// [0 0 x]
+		hundreds := group / 100 % 10
+		// [0 x 0]
+		tens := group / 10 % 10
+		// [x 0 0]
+		zeros := group % 10
 
-	return
-}
+		if hundreds > 0 {
+			if i == len(groups)-1 {
+				stringOfNum = append(stringOfNum, _hundreds[hundreds])
+			} else {
+				stringOfNum = append(stringOfNum, "و", _hundreds[hundreds])
+			}
+		}
 
-func intMod(x, y int) int {
-	return int(math.Mod(float64(x), float64(y)))
+		//Move to scale number
+		if tens == 0 && zeros == 0 {
+			goto scale
+		}
+
+		switch tens {
+		case 0:
+			stringOfNum = append(stringOfNum, _smallNumbers[zeros])
+		case 1:
+			stringOfNum = append(stringOfNum, _smallNumbers2[zeros])
+			break
+		default:
+			if zeros > 0 {
+				word := fmt.Sprintf("و %s و %s", _smallNumbers[zeros], _tens[tens])
+				stringOfNum = append(stringOfNum, word)
+			} else {
+				stringOfNum = append(stringOfNum, _tens[tens])
+			}
+			break
+		}
+
+		// Scale position
+	scale:
+		if mega := _scaleNumbers[i]; mega != "" {
+			stringOfNum = append(stringOfNum, mega)
+		}
+	}
+
+	return strings.TrimSpace(strings.Join(stringOfNum, " "))
 }
