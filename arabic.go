@@ -1,4 +1,4 @@
-//Package arabic ..
+//Package arabic provides a set of functions for Arabic text processing in golang
 package arabic
 
 import (
