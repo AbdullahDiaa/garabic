@@ -37,8 +37,6 @@
 
 ## Usage
 
-The following example prints out matches with the matched chars in bold.
-
 ```go
 package main
 
