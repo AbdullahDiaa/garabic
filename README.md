@@ -13,7 +13,7 @@
 > مكتبة برمجية توفر دوالاً للتعامل مع النصوص العربية في لغة برمجة  go
 
 
-# Features
+## Features
 
 * [x] Normalize arabic text for processing.
 * [x] Remove Harakat from arabic text.
@@ -24,7 +24,7 @@
 * [ ] Arabic Glyphs shaping to render arabic text properly in images.
 * [ ] Add diacritics to arabic text 
 
-# المزايا
+## المزايا
 
 * [x] تنميط الحروف
 * [x] اختزال التشكيل
@@ -56,22 +56,40 @@ func main() {
 }
 ```
 
-# Speed
+## Speed
 Here's a benchmark for normalizing ~78K words on MBP i5 takes about ~45ms:
 ```
 BenchmarkNormalizeBigText-4           25          45546613 ns/op         9275097 B/op         31 allocs/op
 ~45 ms
 ```
 
-# Documentation
+## Documentation
 
-[GoDoc][godoc-url].
+You can view detailed documentation here: [GoDoc][godoc-url].
 
-# Contributing
+## التوثيق
+يمكنك مراجعة توثيق الكود و الاستخدام الخاص بكل دالة من خلال هذا الرابط: [GoDoc][godoc-url].
 
-Everyone is welcome to contribute. Please send me a pull request or file an issue. I promise to respond promptly.
+## Contributing
 
-# License
+There are many ways to contribute:
+- Fix and [report bugs](https://github.com/AbdullahDiaa/ar-golang/issues/new)
+- [Improve documentation](https://github.com/AbdullahDiaa/ar-golang/issues?q=is%3Aopen+label%3Adocumentation)
+- [Review code and feature proposals](https://github.com/AbdullahDiaa/ar-golang/pulls)
+
+## المشاركة
+يمكنك المشاركة في تطوير المكتبة بأحد هذه الطرق:
+- اصلاح المشاكل أو [الابلاغ عنها](https://github.com/AbdullahDiaa/ar-golang/issues/new)
+- [تحسين التوثيق](https://github.com/AbdullahDiaa/ar-golang/issues?q=is%3Aopen+label%3Adocumentation)
+- [مراجعة الكود و ارسال مقترحات لتحسينه](https://github.com/AbdullahDiaa/ar-golang/pulls)
+
+
+## Changelog
+
+View the [changelog](/CHANGELOG.md) for the latest updates and changes by
+version.
+
+## License
 
 [Apache License 2.0][licence-url]
 
