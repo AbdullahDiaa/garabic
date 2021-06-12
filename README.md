@@ -7,6 +7,7 @@
 [![GoDoc][godoc-image]][godoc-url]
 [![codecov][codecov-image]][codecov-url]
 [![Build Status][travis-image]][travis-url]
+[![Go Report Card](https://goreportcard.com/badge/github.com/AbdullahDiaa/ar-golang)](https://goreportcard.com/report/github.com/AbdullahDiaa/ar-golang)
 
 > A set of functions for Arabic text processing in golang
 
