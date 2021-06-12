@@ -212,3 +212,26 @@ func SpellNumber(input int) string {
 
 	return strings.TrimSpace(strings.Join(stringOfNum, " "))
 }
+
+// Tashkeel will add matching diacritics to arabic text
+func Tashkeel(input string) string {
+	JarrWords := []string{"من", "الى", "عن", "على", "مذ", "خلا", "عدا", "حاشا"}
+	words := strings.Fields(input)
+	for i, word := range words {
+		// يُجَرُّ الاسم إذا سُبِق بأحد حروف جرٍّ، مثل كلمة الشركة في جملة: توجّهْتُ إلى الشركةِ
+		if contains(JarrWords, Normalize(word)) {
+			words[i+1] += string('\u0650')
+		}
+	}
+	return strings.Join(words, " ")
+}
+
+// contains checks if a string is present in a slice
+func contains(s []string, str string) bool {
+	for _, v := range s {
+		if v == str {
+			return true
+		}
+	}
+	return false
+}

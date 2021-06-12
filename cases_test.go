@@ -155,3 +155,16 @@ var spellNumberTestCases = []struct {
 		"مئة و واحد و أربعون مليار و خمسمئة و اثنان و تسعون مليون و ستمئة و ثلاثة و خمسون ألف و خمسمئة و تسعة و ثمانون",
 	},
 }
+
+//spellNumberTestCases contains all test cases for reading a number in arabic
+var tashkeelTestCases = []struct {
+	description string
+	input       string
+	expected    string
+}{
+	{
+		"Adding Kasrah after 'من'",
+		"يقرأ محمد مِنَ الكتاب",
+		"يقرأ محمد مِنَ الكتابِ",
+	},
+}

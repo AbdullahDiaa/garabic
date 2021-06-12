@@ -21,6 +21,7 @@
 * [ ] Hijri date support.
 * [ ] Arabic Sentiment Analysis.
 * [ ] Arabic Glyphs shaping to render arabic text properly in images.
+* [ ] Add diacritics to arabic text 
 
 # المزايا
 
@@ -31,7 +32,7 @@
 * [ ] التاريخ الهجري
 * [ ] تحليل المشاعر في النص العربي
 * [ ] اصلاح تظبيك النص العربي
-
+* [ ] تشكيل النص العربي
 # Documentation
 
 [GoDoc][godoc-url].

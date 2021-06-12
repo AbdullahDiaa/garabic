@@ -115,6 +115,7 @@ func TestDeleteRune(t *testing.T) {
 	}
 }
 
+//TestSpellNumber ..
 func TestSpellNumber(t *testing.T) {
 	t.Log("Given a number it should be return readable string of it in arabic")
 	{
@@ -125,6 +126,22 @@ func TestSpellNumber(t *testing.T) {
 				t.Errorf("\t%s\t\tShould be converted to %s, got %s instead", failed, tt.expected, textOfNum)
 			} else {
 				t.Logf("\t%s\t\tShould be converted to %s", succeed, tt.expected)
+			}
+		}
+	}
+}
+
+//TestTashkeel ...
+func TestTashkeel(t *testing.T) {
+	t.Log("Given an arabic string, diacritics should be added correctly")
+	{
+		for i, tt := range tashkeelTestCases {
+			withDiacritics := Tashkeel(tt.input)
+			t.Logf("\tTest: %d\t Adding diacritics to %s", i, tt.input)
+			if withDiacritics != tt.expected {
+				t.Errorf("\t%s\t(%s)\tShould be updated to %s, got %s instead", failed, tt.description, tt.expected, withDiacritics)
+			} else {
+				t.Logf("\t%s\t(%s)\tShould be updated to %s", succeed, tt.description, tt.expected)
 			}
 		}
 	}
