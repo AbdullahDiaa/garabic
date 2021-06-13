@@ -14,6 +14,11 @@
 > مكتبة برمجية توفر دوالاً للتعامل مع النصوص العربية في لغة برمجة  go
 
 
+⚠️ The library still under active development
+
+⚠️ المكتبة لا تزال تحت التطوير
+
+
 ## Features
 
 * [x] Normalize arabic text for processing.
