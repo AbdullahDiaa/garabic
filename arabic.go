@@ -198,7 +198,11 @@ func SpellNumber(input int) string {
 				word := fmt.Sprintf("و %s و %s", _zeroToNine[zeros], _tens[tens])
 				stringOfNum = append(stringOfNum, word)
 			} else {
-				stringOfNum = append(stringOfNum, "و", _tens[tens])
+				if len(stringOfNum) > 1 {
+					stringOfNum = append(stringOfNum, "و", _tens[tens])
+				} else {
+					stringOfNum = append(stringOfNum, _tens[tens])
+				}
 			}
 			break
 		}

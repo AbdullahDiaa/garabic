@@ -49,7 +49,7 @@ package main
 import (
 	"fmt"
 
-	arabic "github.com/AbdullahDiaa/ar-golang"
+	arabic "github.com/abdullahdiaa/ar-golang"
 )
 
 func main() {

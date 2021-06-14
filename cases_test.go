@@ -119,6 +119,58 @@ var spellNumberTestCases = []struct {
 		"اثنان",
 	},
 	{
+		3,
+		"ثلاثة",
+	},
+	{
+		4,
+		"أربعة",
+	},
+	{
+		5,
+		"خمسة",
+	},
+	{
+		6,
+		"ستة",
+	},
+	{
+		7,
+		"سبعة",
+	},
+	{
+		8,
+		"ثمانية",
+	},
+	{
+		9,
+		"تسعة",
+	},
+	{
+		10,
+		"عشرة",
+	},
+	{
+		11,
+		"أحد عشر",
+	},
+	{
+		12,
+		"اثنا عشر",
+	},
+	{
+		20,
+		"عشرون",
+	},
+	{
+		50,
+		"خمسون",
+	},
+	{
+		90,
+		"تسعون",
+	},
+	{
 		100,
 		"مئة",
 	},
@@ -156,7 +208,7 @@ var spellNumberTestCases = []struct {
 	},
 }
 
-//spellNumberTestCases contains all test cases for reading a number in arabic
+//tashkeelTestCases contains all test cases for adding tashkeel to arabic text
 var tashkeelTestCases = []struct {
 	description string
 	input       string
