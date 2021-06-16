@@ -24,7 +24,7 @@
 * [x] Normalize Arabic text for processing.
 * [x] Remove Harakat from Arabic text.
 * [x] Arabic numbers to words.
-* [ ] Arabic Glyphs shaping to render Arabic text properly in images.
+* [x] Arabic Glyphs shaping to render Arabic text properly in images.
 * [ ] Add diacritics to Arabic text [in progress]
 * [ ] Hijri date support.
 * [ ] English-Arabic Transliteration.
@@ -35,13 +35,15 @@
 * [x] تنميط الحروف
 * [x] اختزال التشكيل
 * [x] تحويل الأعداد إلى كلمات
-* [ ] اصلاح تشبيك النص العربي
+* [x] اصلاح تشبيك النص العربي
 * [ ] تشكيل النص العربي
 * [ ] التاريخ الهجري
 * [ ] دعم قراءة و تحويل النص العربي لحروف انجليزية
 * [ ] تحليل المشاعر في النص العربي
 
 ## Usage
+
+### Normalization /  تنميط الحروف
 
 ```go
 package main
@@ -59,6 +61,88 @@ func main() {
 	// سنوات
 }
 ```
+
+### Arabic Glyphs shaping /  اصلاح تشبيك النص العربي
+
+Here's an example for printing Arabic text on an image:
+
+مثال لطباعة نص عربي علي صورة:
+
+without the library/ من غير استخدام المكتبة
+
+<img src=".github/before.png"> 
+
+using the library/ باستخدام المكتبة
+
+<img src=".github/after.png"> 
+
+
+```go
+package main
+
+import (
+	"image"
+	"image/color"
+	"image/png"
+	"io/ioutil"
+	"log"
+	"os"
+
+	arabic "github.com/abdullahdiaa/ar-golang"
+	"github.com/golang/freetype/truetype"
+	"golang.org/x/image/font"
+	"golang.org/x/image/math/fixed"
+)
+
+func addLabel(img *image.RGBA, x, y int, label string) {
+	col := color.RGBA{120, 157, 243, 255}
+	point := fixed.P(x, y)
+
+	//Load font file
+	//You can download amiri font from this link: https://fonts.google.com/specimen/Amiri
+	b, err := ioutil.ReadFile("Amiri-Regular.ttf")
+	if err != nil {
+		log.Println(err)
+		return
+	}
+
+	ttf, err := truetype.Parse(b)
+	if err != nil {
+		log.Println(err)
+		return
+	}
+	//Create Font.Face from font
+	face := truetype.NewFace(ttf, &truetype.Options{
+		Size:    80,
+		DPI:     72,
+		Hinting: font.HintingNone,
+	})
+
+	d := &font.Drawer{
+		Dst:  img,
+		Src:  image.NewUniform(col),
+		Face: face,
+		Dot:  point,
+	}
+
+	d.DrawString(label)
+}
+
+func main() {
+	img := image.NewRGBA(image.Rect(0, 0, 300, 150))
+	addLabel(img, 55, 95, arabic.Shape("بِالعَرَبِّي"))
+
+	f, err := os.Create("printed_arabic_text.png")
+	if err != nil {
+		panic(err)
+	}
+	defer f.Close()
+	if err := png.Encode(f, img); err != nil {
+		panic(err)
+	}
+}
+```
+
 
 ## Speed
 Here's a benchmark for normalizing ~78K words on MBP i5 takes about ~45ms:
