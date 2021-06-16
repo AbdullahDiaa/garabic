@@ -21,25 +21,25 @@
 
 ## Features
 
-* [x] Normalize arabic text for processing.
-* [x] Remove Harakat from arabic text.
+* [x] Normalize Arabic text for processing.
+* [x] Remove Harakat from Arabic text.
 * [x] Arabic numbers to words.
-* [ ] English-Arabic Transliteration.
+* [ ] Arabic Glyphs shaping to render Arabic text properly in images.
+* [ ] Add diacritics to Arabic text [in progress]
 * [ ] Hijri date support.
+* [ ] English-Arabic Transliteration.
 * [ ] Arabic Sentiment Analysis.
-* [ ] Arabic Glyphs shaping to render arabic text properly in images.
-* [ ] Add diacritics to arabic text 
 
 ## المزايا
 
 * [x] تنميط الحروف
 * [x] اختزال التشكيل
 * [x] تحويل الأعداد إلى كلمات
-* [ ] دعم قراءة و تحويل النص العربي لحروف انجليزية
-* [ ] التاريخ الهجري
-* [ ] تحليل المشاعر في النص العربي
 * [ ] اصلاح تشبيك النص العربي
 * [ ] تشكيل النص العربي
+* [ ] التاريخ الهجري
+* [ ] دعم قراءة و تحويل النص العربي لحروف انجليزية
+* [ ] تحليل المشاعر في النص العربي
 
 ## Usage
 

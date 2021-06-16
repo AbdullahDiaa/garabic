@@ -220,3 +220,16 @@ var tashkeelTestCases = []struct {
 		"يقرأ محمد مِنَ الكتابِ",
 	},
 }
+
+//shapingTestCases contains all test cases for shaping arabic text
+var shapingTestCases = []struct {
+	description string
+	input       string
+	expected    string
+}{
+	{
+		"Shaping الكتاب word",
+		"الكتاب",
+		"اﻠﻜﺘﺎﺐ",
+	},
+}

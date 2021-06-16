@@ -147,6 +147,21 @@ func TestTashkeel(t *testing.T) {
 	}
 }
 
+//TestShape ...
+func TestShape(t *testing.T) {
+	t.Log("Given an arabic string, shaping will be fixed for rendering")
+	{
+		for i, tt := range shapingTestCases {
+			shapedArabicText := Shape(tt.input)
+			t.Logf("\tTest: %d\t Shaping: %s", i, tt.input)
+			if shapedArabicText != tt.expected {
+				t.Errorf("\t%s\t(%s)\tShould be updated to %s, got %s instead", failed, tt.description, tt.expected, shapedArabicText)
+			} else {
+				t.Logf("\t%s\t(%s)\tShould be updated to %s", succeed, tt.description, tt.expected)
+			}
+		}
+	}
+}
 func BenchmarkNormalize(b *testing.B) {
 	for i := 0; i < b.N; i++ {
 		for _, c := range normalizeTestCases {
