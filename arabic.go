@@ -24,6 +24,7 @@ type letterShape struct {
 	Independent, Initial, Medial, Final rune
 }
 
+//Map of different shapes of arabic alphabet
 var arabicAlphabetShapes = map[rune]letterShape{
 	// Letter (ﺃ)
 	'\u0623': {Independent: '\uFE83', Initial: '\u0623', Medial: '\uFE84', Final: '\uFE84'},
@@ -343,7 +344,7 @@ func Shape(input string) string {
 	var shapedInput bytes.Buffer
 
 	//Convert input into runes
-	inputRunes := []rune(input)
+	inputRunes := []rune(RemoveHarakat(input))
 	for i := range inputRunes {
 		//Get Bounding back and front letters
 		var backLetter, frontLetter rune
@@ -354,17 +355,55 @@ func Shape(input string) string {
 			frontLetter = inputRunes[i+1]
 		}
 		//Fix the letter based on bounding letters
-		adjustedLetter := adjustLetter(letterGroup{backLetter, inputRunes[i], frontLetter})
-		shapedInput.WriteRune(adjustedLetter)
+		if _, ok := arabicAlphabetShapes[inputRunes[i]]; ok {
+			adjustedLetter := adjustLetter(letterGroup{backLetter, inputRunes[i], frontLetter})
+			shapedInput.WriteRune(adjustedLetter)
+		} else {
+			shapedInput.WriteRune(inputRunes[i])
+		}
 	}
-	return shapedInput.String()
+
+	//In case no Tashkeel deteted, same size of runes
+	if len([]rune(shapedInput.String())) == len([]rune(input)) {
+		return reverse(shapedInput.String())
+	}
+
+	var shapedInputTashkeel bytes.Buffer
+	inputTashkeelRunes := []rune(input)
+
+	letterIndex := 0
+	//Restore Tashkeel
+	for i := range inputTashkeelRunes {
+		if _, ok := arabicAlphabetShapes[inputTashkeelRunes[i]]; ok {
+			shapedInputTashkeel.WriteRune([]rune(shapedInput.String())[letterIndex])
+			letterIndex++
+		} else {
+			shapedInputTashkeel.WriteRune(inputTashkeelRunes[i])
+		}
+	}
+
+	return reverse(shapedInputTashkeel.String())
+
+}
+
+//reverse the arabic string for RTL support in rendering
+func reverse(s string) string {
+	runes := []rune(s)
+	for i, j := 0, len(runes)-1; i < j; i, j = i+1, j-1 {
+		runes[i], runes[j] = runes[j], runes[i]
+	}
+	return string(runes)
 }
 
 //adjustLetter will adjust the arabic letter depending on its position
 func adjustLetter(g letterGroup) rune {
+
 	switch {
 	//Inbetween 2 letters
 	case g.backLetter > 0 && g.frontLetter > 0:
+		if isAlwaysInitial(g.backLetter) {
+			return arabicAlphabetShapes[g.letter].Initial
+		}
 		return arabicAlphabetShapes[g.letter].Medial
 
 	//Not preceded by any letter
@@ -373,9 +412,23 @@ func adjustLetter(g letterGroup) rune {
 
 	//Not followed by any letter
 	case g.backLetter > 0 && g.frontLetter == 0:
+		if isAlwaysInitial(g.backLetter) {
+			return arabicAlphabetShapes[g.letter].Independent
+		}
 		return arabicAlphabetShapes[g.letter].Final
 
 	default:
 		return arabicAlphabetShapes[g.letter].Independent
 	}
+}
+
+//Check if the letter is always .Initial
+func isAlwaysInitial(letter rune) bool {
+	alwaysInitial := [13]rune{'\u0627', '\u0623', '\u0622', '\u0625', '\u0649', '\u0621', '\u0624', '\u0629', '\u062f', '\u0630', '\u0631', '\u0632', '\u0648'}
+	for _, item := range alwaysInitial {
+		if item == letter {
+			return true
+		}
+	}
+	return false
 }

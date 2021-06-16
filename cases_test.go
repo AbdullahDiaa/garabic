@@ -228,8 +228,13 @@ var shapingTestCases = []struct {
 	expected    string
 }{
 	{
-		"Shaping الكتاب word",
-		"الكتاب",
-		"اﻠﻜﺘﺎﺐ",
+		"Shaping بالعربي word",
+		"بالعربي",
+		"ﻲﺑﺮﻌﻟﺎﺑ",
+	},
+	{
+		"Shaping  بِالعَرَبِّي word",
+		"بِالعَرَبِّي",
+		"ﻲِّﺑَﺮَﻌﻟﺎِﺑ",
 	},
 }
