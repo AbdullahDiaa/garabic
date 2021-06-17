@@ -356,9 +356,9 @@ func Shape(input string) string {
 
 //shapeWord will reconstruct an arabic word to be connected correctly
 func shapeWord(input string) string {
-	if !IsArabic(input) {
+	/*if !IsArabic(input) {
 		return input
-	}
+	}*/
 
 	var shapedInput bytes.Buffer
 
