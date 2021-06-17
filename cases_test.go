@@ -228,13 +228,23 @@ var shapingTestCases = []struct {
 	expected    string
 }{
 	{
-		"Shaping بالعربي word",
+		"Shaping 1 word without tashkeel",
 		"بالعربي",
 		"ﻲﺑﺮﻌﻟﺎﺑ",
 	},
 	{
-		"Shaping  بِالعَرَبِّي word",
+		"Shaping 1 word with tashkeel",
 		"بِالعَرَبِّي",
 		"ﻲِّﺑَﺮَﻌﻟﺎِﺑ",
+	},
+	{
+		"Shaping 1 word with tashkeel",
+		"فَحَومَلِ",
+		"ِﻞَﻣﻮَﺤَﻓ",
+	},
+	{
+		"Shaping  1 sentence with tashkeel",
+		"قِفا نَبكِ مِن ذِكرى حَبيبٍ وَمَنزِلِ   ****   بِسِقطِ اللِوى بَينَ الدَخولِ فَحَومَلِ",
+		"ِﻞَﻣﻮَﺤَﻓ ِﻝﻮﺧَﺪﻟا َﻦﻴَﺑ ﻯﻮِﻠﻟا ِﻂﻘِﺴِﺑ **** ِﻝِﺰﻨَﻣَو ٍﺐﻴﺒَﺣ ﻯﺮﻛِذ ﻦِﻣ ِﻚﺒَﻧ ﺎﻔِﻗ",
 	},
 }

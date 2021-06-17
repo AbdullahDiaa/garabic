@@ -339,8 +339,22 @@ func contains(s []string, str string) bool {
 	return false
 }
 
-//Shape will reconstruct arabic to be connected correctly
 func Shape(input string) string {
+	words := strings.Fields(input)
+	var shapedSentence []string
+	for _, word := range words {
+		shapedSentence = append(shapedSentence, shapeWord(word))
+	}
+	//Reverse words
+	for i := len(shapedSentence)/2 - 1; i >= 0; i-- {
+		opp := len(shapedSentence) - 1 - i
+		shapedSentence[i], shapedSentence[opp] = shapedSentence[opp], shapedSentence[i]
+	}
+	return strings.Join(shapedSentence, " ")
+}
+
+//shapeWord will reconstruct an arabic word to be connected correctly
+func shapeWord(input string) string {
 	var shapedInput bytes.Buffer
 
 	//Convert input into runes

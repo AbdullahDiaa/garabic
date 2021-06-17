@@ -110,9 +110,9 @@ func addLabel(img *image.RGBA, x, y int, label string) {
 	}
 	//Create Font.Face from font
 	face, err := opentype.NewFace(ttf, &opentype.FaceOptions{
-		Size:    80,
+		Size:    26,
 		DPI:     72,
-		Hinting: font.HintingFull,
+		Hinting: font.HintingNone,
 	})
 
 	d := &font.Drawer{
@@ -126,8 +126,8 @@ func addLabel(img *image.RGBA, x, y int, label string) {
 }
 
 func main() {
-	img := image.NewRGBA(image.Rect(0, 0, 300, 150))
-	addLabel(img, 55, 95, arabic.Shape("بِالعَرَبِّي"))
+	img := image.NewRGBA(image.Rect(0, 0, 700, 70))
+	addLabel(img, 40, 40, arabic.Shape("قِفا نَبكِ مِن ذِكرى حَبيبٍ وَمَنزِلِ   ****   بِسِقطِ اللِوى بَينَ الدَخولِ فَحَومَلِ"))
 
 	f, err := os.Create("printed_arabic_text.png")
 	if err != nil {

@@ -155,7 +155,7 @@ func TestShape(t *testing.T) {
 			shapedArabicText := Shape(tt.input)
 			t.Logf("\tTest: %d\t Shaping: %s", i, tt.input)
 			if shapedArabicText != tt.expected {
-				t.Errorf("\t%s\t(%s)\tShould be updated to %s, got %s instead", failed, tt.description, tt.expected, shapedArabicText)
+				t.Errorf("\t%s\t(%s)\tShould be updated to \n'%s'\n, got \n\"%s\"\n instead", failed, tt.description, tt.expected, shapedArabicText)
 			} else {
 				t.Logf("\t%s\t(%s)\tShould be updated to %s", succeed, tt.description, tt.expected)
 			}
