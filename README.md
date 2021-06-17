@@ -89,40 +89,37 @@ import (
 	"os"
 
 	arabic "github.com/abdullahdiaa/ar-golang"
-	"github.com/golang/freetype/truetype"
 	"golang.org/x/image/font"
+	"golang.org/x/image/font/opentype"
 	"golang.org/x/image/math/fixed"
 )
 
 func addLabel(img *image.RGBA, x, y int, label string) {
-	col := color.RGBA{120, 157, 243, 255}
-	point := fixed.P(x, y)
-
 	//Load font file
-	//You can download amiri font from this link: https://fonts.google.com/specimen/Amiri
+	//You can download amiri font from this link: https://fonts.google.com/specimen/Amiri?preview.text=%D8%A8%D9%90%D8%A7%D9%84%D8%B9%D9%8E%D8%B1%D9%8E%D8%A8%D9%90%D9%91%D9%8A&preview.text_type=custom#standard-styles
 	b, err := ioutil.ReadFile("Amiri-Regular.ttf")
 	if err != nil {
 		log.Println(err)
 		return
 	}
 
-	ttf, err := truetype.Parse(b)
+	ttf, err := opentype.Parse(b)
 	if err != nil {
 		log.Println(err)
 		return
 	}
 	//Create Font.Face from font
-	face := truetype.NewFace(ttf, &truetype.Options{
+	face, err := opentype.NewFace(ttf, &opentype.FaceOptions{
 		Size:    80,
 		DPI:     72,
-		Hinting: font.HintingNone,
+		Hinting: font.HintingFull,
 	})
 
 	d := &font.Drawer{
 		Dst:  img,
-		Src:  image.NewUniform(col),
+		Src:  image.NewUniform(color.RGBA{120, 157, 243, 255}),
 		Face: face,
-		Dot:  point,
+		Dot:  fixed.P(x, y),
 	}
 
 	d.DrawString(label)
