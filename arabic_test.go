@@ -162,6 +162,35 @@ func TestShape(t *testing.T) {
 		}
 	}
 }
+
+func TestIsArabicLetter(t *testing.T) {
+	t.Log("Given a letter, check if it's an arabic letter")
+	{
+		for i, tt := range arabicLetterTestCases {
+			t.Logf("\tTest: %d\t Checking if letter %s is arabic", i, string(tt.input))
+			if IsArabicLetter(tt.input) != tt.expected {
+				t.Errorf("\t%s\t(%s)\tShould return %t, got %t instead", failed, tt.description, tt.expected, IsArabicLetter(tt.input))
+			} else {
+				t.Logf("\t%s\t(%s)\tShould be %t", succeed, tt.description, tt.expected)
+			}
+		}
+	}
+}
+
+func TestIsArabic(t *testing.T) {
+	t.Log("Given a text, check if it's arabic")
+	{
+		for i, tt := range arabicTextTestCases {
+			t.Logf("\tTest: %d\t Checking if letter %s is arabic", i, string(tt.input))
+			if IsArabic(tt.input) != tt.expected {
+				t.Errorf("\t%s\t(%s)\tShould return %t, got %t instead", failed, tt.description, tt.expected, IsArabic(tt.input))
+			} else {
+				t.Logf("\t%s\t(%s)\tShould be %t", succeed, tt.description, tt.expected)
+			}
+		}
+	}
+}
+
 func BenchmarkNormalize(b *testing.B) {
 	for i := 0; i < b.N; i++ {
 		for _, c := range normalizeTestCases {
@@ -207,4 +236,10 @@ func ExampleSpellNumber() {
 	fmt.Println(numberInWords)
 	// Output:
 	// مئة
+}
+
+func ExampleIsArabicLetter() {
+	fmt.Println(IsArabicLetter('ص'))
+	// Output:
+	// true
 }

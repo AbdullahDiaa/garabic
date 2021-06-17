@@ -356,6 +356,10 @@ func Shape(input string) string {
 
 //shapeWord will reconstruct an arabic word to be connected correctly
 func shapeWord(input string) string {
+	if !IsArabic(input) {
+		return input
+	}
+
 	var shapedInput bytes.Buffer
 
 	//Convert input into runes
@@ -446,4 +450,21 @@ func isAlwaysInitial(letter rune) bool {
 		}
 	}
 	return false
+}
+
+//IsArabicLetter checks if the letter is arabic
+func IsArabicLetter(ch rune) bool {
+	return (ch >= 0x600 && ch <= 0x6FF)
+}
+
+//IsArabic checks if the input string contains arabic unicode only
+func IsArabic(input string) bool {
+
+	var isArabic = true
+	for _, v := range input {
+		if !unicode.In(v, unicode.Arabic) && !unicode.IsSpace(v) {
+			isArabic = false
+		}
+	}
+	return isArabic
 }

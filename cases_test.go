@@ -254,3 +254,39 @@ var shapingTestCases = []struct {
 		"ﻲﺑﺮﻌﻟﺎﺑ / in arabic",
 	},
 }
+
+//arabicLetterTestCases
+var arabicLetterTestCases = []struct {
+	description string
+	input       rune
+	expected    bool
+}{
+	{
+		"Checking arabic letter",
+		'ص',
+		true,
+	},
+	{
+		"Checking english letter",
+		's',
+		false,
+	},
+}
+
+// /arabicWordsTestCases
+var arabicTextTestCases = []struct {
+	description string
+	input       string
+	expected    bool
+}{
+	{
+		"Checking arabic text",
+		"نص عربي",
+		true,
+	},
+	{
+		"Checking arabic/english mixed text",
+		"نص عربي with english",
+		false,
+	},
+}
