@@ -1,4 +1,4 @@
-module github.com/abdullahdiaa/ar-golang
+module github.com/abdullahdiaa/garabic
 
 go 1.16
 

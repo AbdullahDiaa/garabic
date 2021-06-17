@@ -2,12 +2,12 @@
      <img alt="Arabic tools for golang - حزمة أدوات للتعامل مع اللغة العربية في لغة go" src=".github/logo.png"> 
 </p>
 
-# ar-golang
+# GArabic
 
 [![GoDoc][godoc-image]][godoc-url]
 [![codecov][codecov-image]][codecov-url]
 [![Build Status][travis-image]][travis-url]
-[![Go Report Card](https://goreportcard.com/badge/github.com/AbdullahDiaa/ar-golang)](https://goreportcard.com/report/github.com/AbdullahDiaa/ar-golang)
+[![Go Report Card](https://goreportcard.com/badge/github.com/AbdullahDiaa/garabic)](https://goreportcard.com/report/github.com/AbdullahDiaa/garabic)
 
 > A set of functions for Arabic text processing in golang
 
@@ -51,7 +51,7 @@ package main
 import (
 	"fmt"
 
-	arabic "github.com/abdullahdiaa/ar-golang"
+	arabic "github.com/abdullahdiaa/garabic"
 )
 
 func main() {
@@ -88,7 +88,7 @@ import (
 	"log"
 	"os"
 
-	arabic "github.com/abdullahdiaa/ar-golang"
+	"github.com/abdullahdiaa/garabic"
 	"golang.org/x/image/font"
 	"golang.org/x/image/font/opentype"
 	"golang.org/x/image/math/fixed"
@@ -127,7 +127,7 @@ func addLabel(img *image.RGBA, x, y int, label string) {
 
 func main() {
 	img := image.NewRGBA(image.Rect(0, 0, 700, 70))
-	addLabel(img, 40, 40, arabic.Shape("قِفا نَبكِ مِن ذِكرى حَبيبٍ وَمَنزِلِ   ****   بِسِقطِ اللِوى بَينَ الدَخولِ فَحَومَلِ"))
+	addLabel(img, 40, 40, garabic.Shape("قِفا نَبكِ مِن ذِكرى حَبيبٍ وَمَنزِلِ   ****   بِسِقطِ اللِوى بَينَ الدَخولِ فَحَومَلِ"))
 
 	f, err := os.Create("printed_arabic_text.png")
 	if err != nil {
@@ -158,15 +158,15 @@ You can view detailed documentation here: [GoDoc][godoc-url].
 ## Contributing
 
 There are many ways to contribute:
-- Fix and [report bugs](https://github.com/AbdullahDiaa/ar-golang/issues/new)
-- [Improve documentation](https://github.com/AbdullahDiaa/ar-golang/issues?q=is%3Aopen+label%3Adocumentation)
-- [Review code and feature proposals](https://github.com/AbdullahDiaa/ar-golang/pulls)
+- Fix and [report bugs](https://github.com/AbdullahDiaa/garabic/issues/new)
+- [Improve documentation](https://github.com/AbdullahDiaa/garabic/issues?q=is%3Aopen+label%3Adocumentation)
+- [Review code and feature proposals](https://github.com/AbdullahDiaa/garabic/pulls)
 
 ## المشاركة
 يمكنك المشاركة في تطوير المكتبة بأحد هذه الطرق:
-- اصلاح المشاكل أو [الابلاغ عنها](https://github.com/AbdullahDiaa/ar-golang/issues/new)
-- [تحسين التوثيق](https://github.com/AbdullahDiaa/ar-golang/issues?q=is%3Aopen+label%3Adocumentation)
-- [مراجعة الكود و ارسال مقترحات لتحسينه](https://github.com/AbdullahDiaa/ar-golang/pulls)
+- اصلاح المشاكل أو [الابلاغ عنها](https://github.com/AbdullahDiaa/garabic/issues/new)
+- [تحسين التوثيق](https://github.com/AbdullahDiaa/garabic/issues?q=is%3Aopen+label%3Adocumentation)
+- [مراجعة الكود و ارسال مقترحات لتحسينه](https://github.com/AbdullahDiaa/garabic/pulls)
 
 
 ## Changelog
@@ -185,10 +185,10 @@ version.
    limitations under the License.
 
 
-[codecov-image]: https://codecov.io/gh/AbdullahDiaa/ar-golang/branch/main/graph/badge.svg?token=2RS36L0KVL
-[codecov-url]: https://codecov.io/gh/AbdullahDiaa/ar-golang
-[travis-image]: https://travis-ci.com/AbdullahDiaa/ar-golang.svg?token=xpANNwyiLEp99ynBzKhp&branch=main
-[travis-url]: https://travis-ci.com/AbdullahDiaa/ar-golang
-[godoc-image]: https://godoc.org/github.com/AbdullahDiaa/ar-golang?status.svg
-[godoc-url]: https://godoc.org/github.com/AbdullahDiaa/ar-golang
-[licence-url]: https://github.com/AbdullahDiaa/ar-golang/blob/main/LICENSE
+[codecov-image]: https://codecov.io/gh/AbdullahDiaa/garabic/branch/main/graph/badge.svg?token=2RS36L0KVL
+[codecov-url]: https://codecov.io/gh/AbdullahDiaa/garabic
+[travis-image]: https://travis-ci.com/AbdullahDiaa/garabic.svg?token=xpANNwyiLEp99ynBzKhp&branch=main
+[travis-url]: https://travis-ci.com/AbdullahDiaa/garabic
+[godoc-image]: https://godoc.org/github.com/AbdullahDiaa/garabic?status.svg
+[godoc-url]: https://godoc.org/github.com/AbdullahDiaa/garabic
+[licence-url]: https://github.com/AbdullahDiaa/garabic/blob/main/LICENSE
