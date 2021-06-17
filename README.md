@@ -187,7 +187,7 @@ version.
 
 [codecov-image]: https://codecov.io/gh/AbdullahDiaa/garabic/branch/main/graph/badge.svg?token=2RS36L0KVL
 [codecov-url]: https://codecov.io/gh/AbdullahDiaa/garabic
-[travis-image]: https://travis-ci.com/AbdullahDiaa/garabic.svg?token=xpANNwyiLEp99ynBzKhp&branch=main
+[travis-image]: https://travis-ci.com/AbdullahDiaa/garabic.svg?branch=main
 [travis-url]: https://travis-ci.com/AbdullahDiaa/garabic
 [godoc-image]: https://godoc.org/github.com/AbdullahDiaa/garabic?status.svg
 [godoc-url]: https://godoc.org/github.com/AbdullahDiaa/garabic
