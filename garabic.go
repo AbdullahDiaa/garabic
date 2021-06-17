@@ -341,10 +341,43 @@ func contains(s []string, str string) bool {
 
 //Shape will reconstruct arabic text to be connected correctly
 func Shape(input string) string {
-	words := strings.Fields(input)
+	var langSections []string
+	var continousLangAr string
+	var continousLangLt string
+
+	for _, letter := range input {
+		if IsArabicLetter(letter) {
+			if len(continousLangLt) > 0 {
+				langSections = append(langSections, strings.TrimSpace(continousLangLt))
+			}
+			continousLangLt = ""
+			continousLangAr += string(letter)
+		} else {
+			if len(continousLangAr) > 0 {
+				langSections = append(langSections, strings.TrimSpace(continousLangAr))
+			}
+			continousLangAr = ""
+			continousLangLt += string(letter)
+		}
+	}
+	if len(continousLangLt) > 0 {
+		fmt.Println(continousLangLt)
+		langSections = append(langSections, strings.TrimSpace(continousLangLt))
+	}
+	if len(continousLangAr) > 0 {
+		fmt.Printf("\"%s\"\n", continousLangAr)
+		langSections = append(langSections, strings.TrimSpace(continousLangAr))
+	}
+
 	var shapedSentence []string
-	for _, word := range words {
-		shapedSentence = append(shapedSentence, shapeWord(word))
+	for _, section := range langSections {
+		if IsArabic(section) {
+			for _, word := range strings.Fields(section) {
+				shapedSentence = append(shapedSentence, shapeWord(word))
+			}
+		} else {
+			shapedSentence = append(shapedSentence, section)
+		}
 	}
 	//Reverse words
 	for i := len(shapedSentence)/2 - 1; i >= 0; i-- {
@@ -356,9 +389,9 @@ func Shape(input string) string {
 
 //shapeWord will reconstruct an arabic word to be connected correctly
 func shapeWord(input string) string {
-	/*if !IsArabic(input) {
+	if !IsArabic(input) {
 		return input
-	}*/
+	}
 
 	var shapedInput bytes.Buffer
 
@@ -462,7 +495,7 @@ func IsArabic(input string) bool {
 
 	var isArabic = true
 	for _, v := range input {
-		if !unicode.In(v, unicode.Arabic) && !unicode.IsSpace(v) {
+		if !unicode.IsSpace(v) && !IsArabicLetter(v) {
 			isArabic = false
 		}
 	}

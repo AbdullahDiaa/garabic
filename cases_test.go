@@ -250,8 +250,8 @@ var shapingTestCases = []struct {
 
 	{
 		"Shaping 1 word without tashkeel",
-		"بالعربي / in arabic",
-		"ﻲﺑﺮﻌﻟﺎﺑ / in arabic",
+		"المصفوفة (Multidimentional Array) هي",
+		"ﻲﻫ (Multidimentional Array) ﺔﻓﻮﻔﺼﻤﻟا",
 	},
 }
 
@@ -270,6 +270,11 @@ var arabicLetterTestCases = []struct {
 		"Checking english letter",
 		's',
 		false,
+	},
+	{
+		"Checking tashkeel as arabic letter",
+		'ُ',
+		true,
 	},
 }
 
