@@ -1,4 +1,4 @@
-package arabic
+package garabic
 
 //removeHarakatTestCases contains all test cases for TestRemoveHarakat function
 var removeHarakatTestCases = []struct {
@@ -246,5 +246,11 @@ var shapingTestCases = []struct {
 		"Shaping  1 sentence with tashkeel",
 		"قِفا نَبكِ مِن ذِكرى حَبيبٍ وَمَنزِلِ   ****   بِسِقطِ اللِوى بَينَ الدَخولِ فَحَومَلِ",
 		"ِﻞَﻣﻮَﺤَﻓ ِﻝﻮﺧَﺪﻟا َﻦﻴَﺑ ﻯﻮِﻠﻟا ِﻂﻘِﺴِﺑ **** ِﻝِﺰﻨَﻣَو ٍﺐﻴﺒَﺣ ﻯﺮﻛِذ ﻦِﻣ ِﻚﺒَﻧ ﺎﻔِﻗ",
+	},
+
+	{
+		"Shaping 1 word without tashkeel",
+		"بالعربي / in arabic",
+		"ﻲﺑﺮﻌﻟﺎﺑ / in arabic",
 	},
 }
