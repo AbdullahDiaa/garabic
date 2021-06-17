@@ -339,6 +339,7 @@ func contains(s []string, str string) bool {
 	return false
 }
 
+//Shape will reconstruct arabic text to be connected correctly
 func Shape(input string) string {
 	words := strings.Fields(input)
 	var shapedSentence []string
