@@ -1,4 +1,4 @@
-//Package arabic provides a set of functions for Arabic text processing in golang
+//Package garabic provides a set of functions for Arabic text processing in golang
 package garabic
 
 import (
@@ -318,10 +318,11 @@ func SpellNumber(input int) string {
 
 // Tashkeel will add matching diacritics to arabic text
 func Tashkeel(input string) string {
-	JarrWords := []string{"من", "الى", "عن", "على", "مذ", "خلا", "عدا", "حاشا"}
+	JarrWords := []string{"من", "الي", "عن", "على", "مذ", "خلا", "عدا", "حاشا"}
 	words := strings.Fields(input)
 	for i, word := range words {
 		// يُجَرُّ الاسم إذا سُبِق بأحد حروف جرٍّ، مثل كلمة الشركة في جملة: توجّهْتُ إلى الشركةِ
+		fmt.Println(Normalize(word))
 		if contains(JarrWords, Normalize(word)) {
 			words[i+1] += string('\u0650')
 		}

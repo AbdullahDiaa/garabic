@@ -219,6 +219,11 @@ var tashkeelTestCases = []struct {
 		"يقرأ محمد مِنَ الكتاب",
 		"يقرأ محمد مِنَ الكتابِ",
 	},
+	{
+		"Adding Kasrah after 'إلى'",
+		"يذهب محمد إلى المكتبة",
+		"يذهب محمد إلى المكتبةِ",
+	},
 }
 
 //shapingTestCases contains all test cases for shaping arabic text
