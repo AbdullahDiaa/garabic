@@ -283,7 +283,7 @@ var arabicLetterTestCases = []struct {
 	},
 }
 
-// /arabicWordsTestCases
+// arabicWordsTestCases
 var arabicTextTestCases = []struct {
 	description string
 	input       string
@@ -298,5 +298,31 @@ var arabicTextTestCases = []struct {
 		"Checking arabic/english mixed text",
 		"نص عربي with english",
 		false,
+	},
+}
+
+// arabicNumbersTestCases
+var arabicNumbersTestCases = []struct {
+	description string
+	input       string
+	expected    string
+}{
+	{
+		"Checking converting english digits to arabic digits",
+		"عام 1942",
+		"عام ١٩٤٢",
+	},
+}
+
+// englishNumbersTestCases
+var englishNumbersTestCases = []struct {
+	description string
+	input       string
+	expected    string
+}{
+	{
+		"Checking converting arabic digits to english digits",
+		"عام ١٩٤٢",
+		"عام 1942",
 	},
 }

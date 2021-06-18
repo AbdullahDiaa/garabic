@@ -191,6 +191,34 @@ func TestIsArabic(t *testing.T) {
 	}
 }
 
+func TestToArabicDigits(t *testing.T) {
+	t.Log("Given a text, convert all english digits in it into arabic digits")
+	{
+		for i, tt := range arabicNumbersTestCases {
+			t.Logf("\tTest: %d\t Checking if letter %s is arabic", i, string(tt.input))
+			if ToArabicDigits(tt.input) != tt.expected {
+				t.Errorf("\t%s\t(%s)\tShould return %s, got %s instead", failed, tt.description, tt.expected, ToArabicDigits(tt.input))
+			} else {
+				t.Logf("\t%s\t(%s)\tShould be %s", succeed, tt.description, tt.expected)
+			}
+		}
+	}
+}
+
+func TestToEnglishDigits(t *testing.T) {
+	t.Log("Given a text, convert all arabic digits in it into english digits")
+	{
+		for i, tt := range englishNumbersTestCases {
+			t.Logf("\tTest: %d\t Checking if letter %s is arabic", i, string(tt.input))
+			if ToEnglishDigits(tt.input) != tt.expected {
+				t.Errorf("\t%s\t(%s)\tShould return %s, got %s instead", failed, tt.description, tt.expected, ToEnglishDigits(tt.input))
+			} else {
+				t.Logf("\t%s\t(%s)\tShould be %s", succeed, tt.description, tt.expected)
+			}
+		}
+	}
+}
+
 func BenchmarkNormalize(b *testing.B) {
 	for i := 0; i < b.N; i++ {
 		for _, c := range normalizeTestCases {
@@ -242,4 +270,16 @@ func ExampleIsArabicLetter() {
 	fmt.Println(IsArabicLetter('ص'))
 	// Output:
 	// true
+}
+
+func ExampleToArabicDigits() {
+	fmt.Println(ToArabicDigits("عام 2021"))
+	// Output:
+	// عام ٢٠٢١
+}
+
+func ExampleToEnglishDigits() {
+	fmt.Println(ToEnglishDigits("عام ٢٠٢١"))
+	// Output:
+	// عام 2021
 }

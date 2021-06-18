@@ -25,6 +25,7 @@
 * [x] Remove Harakat from Arabic text.
 * [x] Arabic numbers to words.
 * [x] Arabic Glyphs shaping to render Arabic text properly in images.
+* [x] Convert english digits to Arabic digits, and vice versa
 * [ ] Add diacritics to Arabic text [in progress]
 * [ ] Hijri date support.
 * [ ] English-Arabic Transliteration.
@@ -36,6 +37,7 @@
 * [x] اختزال التشكيل
 * [x] تحويل الأعداد إلى كلمات
 * [x] اصلاح تشبيك النص العربي
+* [x] تحويل الأرقام الانجليزية لأرقام عربية و العكس
 * [ ] تشكيل النص العربي
 * [ ] التاريخ الهجري
 * [ ] دعم قراءة و تحويل النص العربي لحروف انجليزية
