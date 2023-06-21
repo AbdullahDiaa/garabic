@@ -322,7 +322,7 @@ func Tashkeel(input string) string {
 	words := strings.Fields(input)
 	for i, word := range words {
 		// يُجَرُّ الاسم إذا سُبِق بأحد حروف جرٍّ، مثل كلمة الشركة في جملة: توجّهْتُ إلى الشركةِ
-		fmt.Println(Normalize(word))
+		//fmt.Println(Normalize(word))
 		if contains(JarrWords, Normalize(word)) {
 			words[i+1] += string('\u0650')
 		}
@@ -362,11 +362,11 @@ func Shape(input string) string {
 		}
 	}
 	if len(continousLangLt) > 0 {
-		fmt.Println(continousLangLt)
+		//fmt.Println(continousLangLt)
 		langSections = append(langSections, strings.TrimSpace(continousLangLt))
 	}
 	if len(continousLangAr) > 0 {
-		fmt.Printf("\"%s\"\n", continousLangAr)
+		//fmt.Printf("\"%s\"\n", continousLangAr)
 		langSections = append(langSections, strings.TrimSpace(continousLangAr))
 	}
 
