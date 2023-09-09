@@ -1,4 +1,4 @@
-module github.com/abdullahdiaa/garabic
+module github.com/hmmftg/garabic
 
 go 1.16
 
