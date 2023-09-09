@@ -305,7 +305,6 @@ func SpellNumber(input int) string {
 			}
 		case 1:
 			stringOfNum = append(stringOfNum, _elevenToNineteen[zeros])
-			break
 		default:
 			if zeros > 0 {
 				word := fmt.Sprintf("و %s و %s", _zeroToNine[zeros], _tens[tens])
@@ -317,7 +316,6 @@ func SpellNumber(input int) string {
 					stringOfNum = append(stringOfNum, _tens[tens])
 				}
 			}
-			break
 		}
 
 		// Scale position
@@ -402,6 +400,27 @@ func Shape(input string) string {
 	return strings.Join(shapedSentence, " ")
 }
 
+func fixLamAlef(group letterGroup) rune {
+	switch group.letter {
+	case '\u0644': // lam
+		switch group.frontLetter {
+		case '\u0623': // alef hamze above
+			return '\uFEF7'
+		case '\u0627': // alef
+			return '\uFEFB'
+		case '\u0625': // alef hamze below
+			return '\uFEF9'
+		case '\u0622': // alef madd
+			return '\uFEF5'
+		}
+	case '\u0623', '\u0627', '\u0625', '\u0622': // alef types
+		if group.backLetter == '\u0644' { // lam
+			return 0
+		}
+	}
+	return group.letter
+}
+
 // shapeWord will reconstruct an arabic word to be connected correctly
 func shapeWord(input string) string {
 	if !IsArabic(input) {
@@ -412,6 +431,7 @@ func shapeWord(input string) string {
 
 	//Convert input into runes
 	inputRunes := []rune(RemoveHarakat(input))
+	countIgnored := 0
 	for i := range inputRunes {
 		//Get Bounding back and front letters
 		var backLetter, frontLetter rune
@@ -424,14 +444,18 @@ func shapeWord(input string) string {
 		//Fix the letter based on bounding letters
 		if _, ok := arabicAlphabetShapes[inputRunes[i]]; ok {
 			adjustedLetter := adjustLetter(letterGroup{backLetter, inputRunes[i], frontLetter})
-			shapedInput.WriteRune(adjustedLetter)
+			if adjustedLetter != 0 {
+				shapedInput.WriteRune(adjustedLetter)
+			} else {
+				countIgnored++
+			}
 		} else {
 			shapedInput.WriteRune(inputRunes[i])
 		}
 	}
 
 	//In case no Tashkeel deteted, same size of runes
-	if len([]rune(shapedInput.String())) == len([]rune(input)) {
+	if len([]rune(shapedInput.String())) == len([]rune(input))-countIgnored {
 		return reverse(shapedInput.String())
 	}
 
@@ -464,6 +488,11 @@ func reverse(s string) string {
 
 // adjustLetter will adjust the arabic letter depending on its position
 func adjustLetter(g letterGroup) rune {
+	g.letter = fixLamAlef(g)
+
+	if g.letter == 0 {
+		return 0
+	}
 
 	switch {
 	//Inbetween 2 letters
