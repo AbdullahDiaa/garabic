@@ -562,6 +562,22 @@ func ToArabicDigits(input string) string {
 	).Replace(input)
 }
 
+// ToPersianDigits will convert english numbers to persian numbers in text
+func ToPersianDigits(input string) string {
+	return strings.NewReplacer(
+		"0", "٠",
+		"1", "١",
+		"2", "٢",
+		"3", "٣",
+		"4", "۴",
+		"5", "۵",
+		"6", "۶",
+		"7", "٧",
+		"8", "٨",
+		"9", "٩",
+	).Replace(input)
+}
+
 // ToEnglishDigits will convert arabic numbers to english numbers in text
 func ToEnglishDigits(input string) string {
 	return strings.NewReplacer(
