@@ -374,11 +374,11 @@ func Shape(input string) string {
 		}
 	}
 	if len(continousLangLt) > 0 {
-		fmt.Println(continousLangLt)
+		// fmt.Println(continousLangLt)
 		langSections = append(langSections, strings.TrimSpace(continousLangLt))
 	}
 	if len(continousLangAr) > 0 {
-		fmt.Printf("\"%s\"\n", continousLangAr)
+		// fmt.Printf("\"%s\"\n", continousLangAr)
 		langSections = append(langSections, strings.TrimSpace(continousLangAr))
 	}
 
