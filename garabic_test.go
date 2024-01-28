@@ -3,6 +3,7 @@ package garabic
 import (
 	"fmt"
 	"io/ioutil"
+	"os"
 	"reflect"
 	"testing"
 )
@@ -10,7 +11,7 @@ import (
 const succeed = "\u2705"
 const failed = "\u274C"
 
-//TestRemoveHarakat ...
+// TestRemoveHarakat ...
 func TestRemoveHarakat(t *testing.T) {
 
 	t.Log("Given an arabic string it should be normalized")
@@ -27,7 +28,7 @@ func TestRemoveHarakat(t *testing.T) {
 	}
 }
 
-//TestNormalizeBigText ..
+// TestNormalizeBigText ..
 func TestNormalizeBigText(t *testing.T) {
 	originalArabicText, err := ioutil.ReadFile("test_data/bigText.txt")
 	if err != nil {
@@ -46,7 +47,7 @@ func TestNormalizeBigText(t *testing.T) {
 	t.Logf("\t%s\t Should normalize all text file\t", succeed)
 }
 
-//TestNormalize ...
+// TestNormalize ...
 func TestNormalize(t *testing.T) {
 	t.Log("Given an arabic string it should be normalized")
 	{
@@ -62,7 +63,7 @@ func TestNormalize(t *testing.T) {
 	}
 }
 
-//TestDeleteRune ...
+// TestDeleteRune ...
 func TestDeleteRune(t *testing.T) {
 
 	testCases := []struct {
@@ -115,7 +116,7 @@ func TestDeleteRune(t *testing.T) {
 	}
 }
 
-//TestSpellNumber ..
+// TestSpellNumber ..
 func TestSpellNumber(t *testing.T) {
 	t.Log("Given a number it should be return readable string of it in arabic")
 	{
@@ -131,7 +132,7 @@ func TestSpellNumber(t *testing.T) {
 	}
 }
 
-//TestTashkeel ...
+// TestTashkeel ...
 func TestTashkeel(t *testing.T) {
 	t.Log("Given an arabic string, diacritics should be added correctly")
 	{
@@ -147,7 +148,7 @@ func TestTashkeel(t *testing.T) {
 	}
 }
 
-//TestShape ...
+// TestShape ...
 func TestShape(t *testing.T) {
 	t.Log("Given an arabic string, shaping will be fixed for rendering")
 	{
@@ -236,7 +237,7 @@ func BenchmarkRemoveHarakat(b *testing.B) {
 }
 
 func BenchmarkNormalizeBigText(b *testing.B) {
-	originalArabicText, err := ioutil.ReadFile("test_data/bigText.txt")
+	originalArabicText, err := os.ReadFile("test_data/bigText.txt")
 	if err != nil {
 		b.Errorf("\t%s\t Reading file failed with error:(%s)\t", failed, err)
 	}
