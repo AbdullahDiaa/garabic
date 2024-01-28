@@ -520,7 +520,7 @@ func adjustLetter(g letterGroup) rune {
 
 // Check if the letter is always .Initial
 func isAlwaysInitial(letter rune) bool {
-	alwaysInitial := [13]rune{'\u0627', '\u0623', '\u0622', '\u0625', '\u0649', '\u0621', '\u0624', '\u0629', '\u062f', '\u0630', '\u0631', '\u0632', '\u0648'}
+	alwaysInitial := [14]rune{'\u0627', '\u0623', '\u0622', '\u0625', '\u0649', '\u0621', '\u0624', '\u0629', '\u062f', '\u0630', '\u0631', '\u0632', '\u0648', '\u0698'}
 	for _, item := range alwaysInitial {
 		if item == letter {
 			return true
