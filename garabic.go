@@ -173,6 +173,10 @@ const (
 	Hae = '\u0647'
 	//AlefWaslah ٱ / Waslah is considered part of harakat/تَشْكِيل ?
 	AlefWaslah = '\u0671'
+	//Lam => \u0644
+	Lam = '\u0644'
+	//Tatweel => \u0640
+	Tatweel = '\u0640'
 )
 
 // Number groups in Arabic
@@ -334,8 +338,7 @@ func Tashkeel(input string) string {
 	words := strings.Fields(input)
 	for i, word := range words {
 		// يُجَرُّ الاسم إذا سُبِق بأحد حروف جرٍّ، مثل كلمة الشركة في جملة: توجّهْتُ إلى الشركةِ
-		fmt.Println(Normalize(word))
-		if contains(JarrWords, Normalize(word)) {
+		if i+1 < len(words) && contains(JarrWords, Normalize(word)) {
 			words[i+1] += string('\u0650')
 		}
 	}
@@ -374,11 +377,9 @@ func Shape(input string) string {
 		}
 	}
 	if len(continousLangLt) > 0 {
-		// fmt.Println(continousLangLt)
 		langSections = append(langSections, strings.TrimSpace(continousLangLt))
 	}
 	if len(continousLangAr) > 0 {
-		// fmt.Printf("\"%s\"\n", continousLangAr)
 		langSections = append(langSections, strings.TrimSpace(continousLangAr))
 	}
 
@@ -461,15 +462,27 @@ func shapeWord(input string) string {
 
 	var shapedInputTashkeel bytes.Buffer
 	inputTashkeelRunes := []rune(input)
+	shapedRunes := []rune(shapedInput.String())
 
 	letterIndex := 0
+	var previousLetter rune
 	//Restore Tashkeel
 	for i := range inputTashkeelRunes {
+		//Tatweel is stripped by RemoveHarakat, so it has no shaped glyph to consume
+		if inputTashkeelRunes[i] == Tatweel {
+			continue
+		}
 		if _, ok := arabicAlphabetShapes[inputTashkeelRunes[i]]; ok {
-			if letterIndex < len([]rune(shapedInput.String())) {
-				shapedInputTashkeel.WriteRune([]rune(shapedInput.String())[letterIndex])
+			//An alef following lam was merged into a lam-alef ligature and has no glyph of its own
+			if previousLetter == Lam && isAlefType(inputTashkeelRunes[i]) {
+				previousLetter = inputTashkeelRunes[i]
+				continue
+			}
+			if letterIndex < len(shapedRunes) {
+				shapedInputTashkeel.WriteRune(shapedRunes[letterIndex])
 				letterIndex++
 			}
+			previousLetter = inputTashkeelRunes[i]
 		} else {
 			shapedInputTashkeel.WriteRune(inputTashkeelRunes[i])
 		}
@@ -477,6 +490,16 @@ func shapeWord(input string) string {
 
 	return reverse(shapedInputTashkeel.String())
 
+}
+
+// isAlefType checks if the letter is one of the alef forms that merge
+// with a preceding lam into a lam-alef ligature
+func isAlefType(r rune) bool {
+	switch r {
+	case 'آ', 'أ', 'إ', 'ا':
+		return true
+	}
+	return false
 }
 
 // reverse the arabic string for RTL support in rendering
@@ -567,20 +590,20 @@ func ToArabicDigits(input string) string {
 // ToPersianDigits will convert english numbers to persian numbers in text
 func ToPersianDigits(input string) string {
 	return strings.NewReplacer(
-		"0", "٠",
-		"1", "١",
-		"2", "٢",
-		"3", "٣",
+		"0", "۰",
+		"1", "۱",
+		"2", "۲",
+		"3", "۳",
 		"4", "۴",
 		"5", "۵",
 		"6", "۶",
-		"7", "٧",
-		"8", "٨",
-		"9", "٩",
+		"7", "۷",
+		"8", "۸",
+		"9", "۹",
 	).Replace(input)
 }
 
-// ToEnglishDigits will convert arabic numbers to english numbers in text
+// ToEnglishDigits will convert arabic or persian numbers to english numbers in text
 func ToEnglishDigits(input string) string {
 	return strings.NewReplacer(
 		"٠", "0",
@@ -593,5 +616,15 @@ func ToEnglishDigits(input string) string {
 		"٧", "7",
 		"٨", "8",
 		"٩", "9",
+		"۰", "0",
+		"۱", "1",
+		"۲", "2",
+		"۳", "3",
+		"۴", "4",
+		"۵", "5",
+		"۶", "6",
+		"۷", "7",
+		"۸", "8",
+		"۹", "9",
 	).Replace(input)
 }

@@ -224,6 +224,16 @@ var tashkeelTestCases = []struct {
 		"يذهب محمد إلى المكتبة",
 		"يذهب محمد إلى المكتبةِ",
 	},
+	{
+		"Sentence ending with a jarr word should not panic",
+		"سافر محمد وأخذ الكتاب من",
+		"سافر محمد وأخذ الكتاب من",
+	},
+	{
+		"Single jarr word should not panic",
+		"من",
+		"من",
+	},
 }
 
 // shapingTestCases contains all test cases for shaping arabic text
@@ -261,6 +271,26 @@ var shapingTestCases = []struct {
 		"Shaping 1 word without tashkeel",
 		"المصفوفة (Multidimentional Array) هي",
 		"ﻲﻫ (Multidimentional Array) ﺔﻓﻮﻔﺼﻤﻟا",
+	},
+	{
+		"Shaping word with tashkeel after lam-alef ligature",
+		"لَاعِب",
+		"ﺐِﻋَﻻ",
+	},
+	{
+		"Shaping word with tashkeel before lam-alef ligature",
+		"سَلَام",
+		"ﻡَﻼَﺳ",
+	},
+	{
+		"Shaping word with tashkeel and lam-alef-madda ligature",
+		"الْآخِرَة",
+		"ﺓَﺮِﺧْﻵا",
+	},
+	{
+		"Shaping word containing tatweel",
+		"كـتاب",
+		"ﺏﺎﺘﻛ",
 	},
 }
 

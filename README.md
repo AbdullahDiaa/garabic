@@ -1,5 +1,5 @@
 <p align="center" width="100%">
-     <img alt="Arabic tools for golang - حزمة أدوات للتعامل مع اللغة العربية في لغة go" src=".github/logo.png"> 
+     <img alt="Arabic tools for golang - حزمة أدوات للتعامل مع اللغة العربية في لغة go" src=".github/logo.png">
 </p>
 
 # GArabic
@@ -26,6 +26,7 @@
 * [x] Arabic numbers to words.
 * [x] Arabic Glyphs shaping to render Arabic text properly in images.
 * [x] Convert english digits to Arabic digits, and vice versa
+* [x] Persian Glyphs shaping to render Persian text properly in images.
 * [ ] Add diacritics to Arabic text [in progress]
 * [ ] Hijri date support.
 * [ ] English-Arabic Transliteration.
@@ -38,6 +39,7 @@
 * [x] تحويل الأعداد إلى كلمات
 * [x] اصلاح تشبيك النص العربي
 * [x] تحويل الأرقام الانجليزية لأرقام عربية و العكس
+* [x] اصلاح تشبيك النص الفارسي
 * [ ] تشكيل النص العربي
 * [ ] التاريخ الهجري
 * [ ] دعم قراءة و تحويل النص العربي لحروف انجليزية
@@ -72,11 +74,11 @@ Here's an example for printing Arabic text on an image:
 
 without the library/ من غير استخدام المكتبة
 
-<img src=".github/before.png"> 
+<img src=".github/before.png">
 
 using the library/ باستخدام المكتبة
 
-<img src=".github/after.png"> 
+<img src=".github/after.png">
 
 
 ```go
@@ -86,7 +88,6 @@ import (
 	"image"
 	"image/color"
 	"image/png"
-	"io/ioutil"
 	"log"
 	"os"
 
@@ -99,7 +100,7 @@ import (
 func addLabel(img *image.RGBA, x, y int, label string) {
 	//Load font file
 	//You can download amiri font from this link: https://fonts.google.com/specimen/Amiri?preview.text=%D8%A8%D9%90%D8%A7%D9%84%D8%B9%D9%8E%D8%B1%D9%8E%D8%A8%D9%90%D9%91%D9%8A&preview.text_type=custom#standard-styles
-	b, err := ioutil.ReadFile("Amiri-Regular.ttf")
+	b, err := os.ReadFile("Amiri-Regular.ttf")
 	if err != nil {
 		log.Println(err)
 		return
@@ -124,14 +125,19 @@ func addLabel(img *image.RGBA, x, y int, label string) {
 		Dot:  fixed.P(x, y),
 	}
 
+	//Center the text horizontally within the image
+	width := d.MeasureString(label)
+	d.Dot.X = (fixed.I(img.Bounds().Dx()) - width) / 2
+
 	d.DrawString(label)
 }
 
-func main() {
-	img := image.NewRGBA(image.Rect(0, 0, 700, 70))
-	addLabel(img, 40, 40, garabic.Shape("قِفا نَبكِ مِن ذِكرى حَبيبٍ وَمَنزِلِ   ****   بِسِقطِ اللِوى بَينَ الدَخولِ فَحَومَلِ"))
+func saveImage(filename string, arabicText, persianText string) {
+	img := image.NewRGBA(image.Rect(0, 0, 940, 220))
+	addLabel(img, 0, 80, arabicText)
+	addLabel(img, 0, 150, persianText)
 
-	f, err := os.Create("printed_arabic_text.png")
+	f, err := os.Create(filename)
 	if err != nil {
 		panic(err)
 	}
@@ -139,6 +145,16 @@ func main() {
 	if err := png.Encode(f, img); err != nil {
 		panic(err)
 	}
+}
+
+func main() {
+	arabicText := "قِفا نَبكِ مِن ذِكرى حَبيبٍ وَمَنزِلِ   ****   بِسِقطِ اللِوى بَينَ الدَخولِ فَحَومَلِ"
+	persianText := "پژوهشگران چگونه گلچینی از اشعار ژرف فارسی را برگزیدند"
+
+	//Without garabic: letters render disconnected and left-to-right
+	saveImage("without_garabic.png", arabicText, persianText)
+	//With garabic: letters shaped, connected and reordered for RTL
+	saveImage("with_garabic.png", garabic.Shape(arabicText), garabic.Shape(persianText))
 }
 ```
 
@@ -189,7 +205,7 @@ version.
 
 [codecov-image]: https://codecov.io/gh/AbdullahDiaa/garabic/branch/main/graph/badge.svg?token=2RS36L0KVL
 [codecov-url]: https://codecov.io/gh/AbdullahDiaa/garabic
-[travis-image]: https://travis-ci.com/AbdullahDiaa/garabic.svg?branch=main
+[travis-image]: https://app.travis-ci.com/AbdullahDiaa/garabic.svg?token=xpANNwyiLEp99ynBzKhp&branch=main
 [travis-url]: https://travis-ci.com/AbdullahDiaa/garabic
 [godoc-image]: https://godoc.org/github.com/AbdullahDiaa/garabic?status.svg
 [godoc-url]: https://godoc.org/github.com/AbdullahDiaa/garabic

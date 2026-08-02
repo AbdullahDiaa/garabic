@@ -1,16 +1,37 @@
 package garabic
 
 import (
-	"bytes"
 	"strings"
 )
 
+// forwardConnecting holds the shaped glyph forms that connect to the
+// following letter and can therefore host a kashida after them
+var forwardConnecting = buildForwardConnecting()
+
+func buildForwardConnecting() map[rune]bool {
+	set := make(map[rune]bool)
+	for letter, shapes := range arabicAlphabetShapes {
+		//Letters that never connect forward, tatweel itself and the
+		//lam-alef ligatures cannot be stretched
+		if isAlwaysInitial(letter) || letter == Tatweel ||
+			(letter >= 'ﻵ' && letter <= 'ﻼ') {
+			continue
+		}
+		set[shapes.Initial] = true
+		set[shapes.Medial] = true
+	}
+	return set
+}
+
+// Justify will shape an arabic sentence and stretch its words with
+// kashida (tatweel) — or pad with spaces — until the line reaches the
+// requested length in runes
 func Justify(input string, length int) string {
 	var shapedSentence []string
-	if len(input) > length {
+	if len([]rune(input)) >= length {
 		return input
 	}
-	neededLen := length - len(input)
+	neededLen := length - len([]rune(input))
 	sections := strings.Fields(input)
 	lengths := make([]int, len(sections))
 	wordCount := len(sections)
@@ -18,10 +39,13 @@ func Justify(input string, length int) string {
 	if !IsArabic(input) {
 		adjustCount--
 	}
+	if adjustCount <= 0 {
+		return input
+	}
 
 	for i := 0; i < adjustCount; i++ {
 		lengths[i] = neededLen / adjustCount
-		if i <= neededLen%adjustCount {
+		if i < neededLen%adjustCount {
 			lengths[i]++
 		}
 	}
@@ -36,66 +60,31 @@ func Justify(input string, length int) string {
 	return strings.Join(shapedSentence, " ")
 }
 
+// justifyWord shapes a word and stretches it with kashida at its last
+// letter connection, falling back to trailing spaces for words that
+// cannot be stretched. Extra kashidas compensate for runes merged into
+// ligatures so the word still grows by exactly `length` runes
 func justifyWord(word string, length int) string {
 	if !IsArabic(word) {
 		return word
 	}
-	if len(word) == 1 {
-		return word + strings.Repeat(" ", length)
+	shaped := shapeWord(word)
+	needed := length + len([]rune(word)) - len([]rune(shaped))
+	if needed <= 0 {
+		return shaped
 	}
-	countMedials := 0
-	for i, r := range word {
-		if i > 0 && arabicAlphabetShapes[r].Final != arabicAlphabetShapes[r].Independent &&
-			arabicAlphabetShapes[r].Medial != arabicAlphabetShapes[r].Independent {
-			countMedials++
-		}
-	}
-
-	var shapedInput bytes.Buffer
-
-	//Convert input into runes
-	inputRunes := []rune(RemoveHarakat(word))
-	countIgnored := 0
-	for i := range inputRunes {
-		//Get Bounding back and front letters
-		var backLetter, frontLetter rune
-		if i-1 >= 0 {
-			backLetter = inputRunes[i-1]
-		}
-		if i != len(inputRunes)-1 {
-			frontLetter = inputRunes[i+1]
-		}
-		//Fix the letter based on bounding letters
-		if _, ok := arabicAlphabetShapes[inputRunes[i]]; ok {
-			adjustedLetter := adjustLetter(letterGroup{backLetter, inputRunes[i], frontLetter})
-			if adjustedLetter != 0 {
-				shapedInput.WriteRune(adjustedLetter)
-			} else {
-				countIgnored++
+	runes := []rune(shaped)
+	//Shaped words are reversed for RTL, so the last connection of the
+	//word is the first forward-connecting glyph in the slice
+	for i, r := range runes {
+		if forwardConnecting[r] {
+			stretched := make([]rune, 0, len(runes)+needed)
+			stretched = append(stretched, runes[:i]...)
+			for j := 0; j < needed; j++ {
+				stretched = append(stretched, Tatweel)
 			}
-		} else {
-			shapedInput.WriteRune(inputRunes[i])
+			return string(append(stretched, runes[i:]...))
 		}
 	}
-
-	//In case no Tashkeel deteted, same size of runes
-	if len([]rune(shapedInput.String())) == len([]rune(word))-countIgnored {
-		return reverse(shapedInput.String())
-	}
-
-	var shapedInputTashkeel bytes.Buffer
-	inputTashkeelRunes := []rune(word)
-
-	letterIndex := 0
-	//Restore Tashkeel
-	for i := range inputTashkeelRunes {
-		if _, ok := arabicAlphabetShapes[inputTashkeelRunes[i]]; ok {
-			shapedInputTashkeel.WriteRune([]rune(shapedInput.String())[letterIndex])
-			letterIndex++
-		} else {
-			shapedInputTashkeel.WriteRune(inputTashkeelRunes[i])
-		}
-	}
-
-	return reverse(shapedInputTashkeel.String())
+	return shaped + strings.Repeat(" ", needed)
 }
