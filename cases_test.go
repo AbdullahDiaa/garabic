@@ -1,6 +1,6 @@
 package garabic
 
-//removeHarakatTestCases contains all test cases for TestRemoveHarakat function
+// removeHarakatTestCases contains all test cases for TestRemoveHarakat function
 var removeHarakatTestCases = []struct {
 	description string
 	input       string
@@ -34,7 +34,7 @@ var removeHarakatTestCases = []struct {
 	},
 }
 
-//normalizeTestCases contains all test cases for TestNormalize function
+// normalizeTestCases contains all test cases for TestNormalize function
 var normalizeTestCases = []struct {
 	description string
 	input       string
@@ -97,7 +97,7 @@ var normalizeTestCases = []struct {
 	},
 }
 
-//spellNumberTestCases contains all test cases for reading a number in arabic
+// spellNumberTestCases contains all test cases for reading a number in arabic
 var spellNumberTestCases = []struct {
 	input    int
 	expected string
@@ -208,7 +208,7 @@ var spellNumberTestCases = []struct {
 	},
 }
 
-//tashkeelTestCases contains all test cases for adding tashkeel to arabic text
+// tashkeelTestCases contains all test cases for adding tashkeel to arabic text
 var tashkeelTestCases = []struct {
 	description string
 	input       string
@@ -226,12 +226,17 @@ var tashkeelTestCases = []struct {
 	},
 }
 
-//shapingTestCases contains all test cases for shaping arabic text
+// shapingTestCases contains all test cases for shaping arabic text
 var shapingTestCases = []struct {
 	description string
 	input       string
 	expected    string
 }{
+	{
+		"Shaping lam alef",
+		"السلام علیکم",
+		"ﻢﮑﻴﻠﻋ ﻡﻼﺴﻟا",
+	},
 	{
 		"Shaping 1 word without tashkeel",
 		"بالعربي",
@@ -252,7 +257,6 @@ var shapingTestCases = []struct {
 		"قِفا نَبكِ مِن ذِكرى حَبيبٍ وَمَنزِلِ   ****   بِسِقطِ اللِوى بَينَ الدَخولِ فَحَومَلِ",
 		"ِﻞَﻣﻮَﺤَﻓ ِﻝﻮﺧَﺪﻟا َﻦﻴَﺑ ﻯﻮِﻠﻟا ِﻂﻘِﺴِﺑ **** ِﻝِﺰﻨَﻣَو ٍﺐﻴﺒَﺣ ﻯﺮﻛِذ ﻦِﻣ ِﻚﺒَﻧ ﺎﻔِﻗ",
 	},
-
 	{
 		"Shaping 1 word without tashkeel",
 		"المصفوفة (Multidimentional Array) هي",
@@ -260,7 +264,7 @@ var shapingTestCases = []struct {
 	},
 }
 
-//arabicLetterTestCases
+// arabicLetterTestCases
 var arabicLetterTestCases = []struct {
 	description string
 	input       rune
