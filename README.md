@@ -78,7 +78,7 @@ without the library/ من غير استخدام المكتبة
 
 using the library/ باستخدام المكتبة
 
-<img src=".github/after.png">
+<img src=".github/after2.png">
 
 
 ```go
