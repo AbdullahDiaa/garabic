@@ -6,6 +6,8 @@
 
 [![GoDoc][godoc-image]][godoc-url]
 [![Build Status][ci-image]][ci-url]
+[![Tests][tests-image]][tests-url]
+[![Last Commit][last-commit-image]][last-commit-url]
 
 > A set of functions for Arabic text processing in golang
 
@@ -203,6 +205,10 @@ version.
 
 [ci-image]: https://github.com/AbdullahDiaa/garabic/actions/workflows/ci.yml/badge.svg?branch=main
 [ci-url]: https://github.com/AbdullahDiaa/garabic/actions/workflows/ci.yml
+[tests-image]: https://github.com/AbdullahDiaa/garabic/actions/workflows/tests.yml/badge.svg?branch=main
+[tests-url]: https://github.com/AbdullahDiaa/garabic/actions/workflows/tests.yml
+[last-commit-image]: https://img.shields.io/github/last-commit/AbdullahDiaa/garabic
+[last-commit-url]: https://github.com/AbdullahDiaa/garabic/commits/main
 [godoc-image]: https://godoc.org/github.com/AbdullahDiaa/garabic?status.svg
 [godoc-url]: https://godoc.org/github.com/AbdullahDiaa/garabic
 [licence-url]: https://github.com/AbdullahDiaa/garabic/blob/main/LICENSE
