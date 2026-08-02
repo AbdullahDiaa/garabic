@@ -5,9 +5,7 @@
 # GArabic
 
 [![GoDoc][godoc-image]][godoc-url]
-[![codecov][codecov-image]][codecov-url]
 [![Build Status][ci-image]][ci-url]
-[![Go Report Card](https://goreportcard.com/badge/github.com/AbdullahDiaa/garabic)](https://goreportcard.com/report/github.com/AbdullahDiaa/garabic)
 
 > A set of functions for Arabic text processing in golang
 
@@ -203,8 +201,6 @@ version.
    limitations under the License.
 
 
-[codecov-image]: https://codecov.io/gh/AbdullahDiaa/garabic/branch/main/graph/badge.svg?token=2RS36L0KVL
-[codecov-url]: https://codecov.io/gh/AbdullahDiaa/garabic
 [ci-image]: https://github.com/AbdullahDiaa/garabic/actions/workflows/ci.yml/badge.svg?branch=main
 [ci-url]: https://github.com/AbdullahDiaa/garabic/actions/workflows/ci.yml
 [godoc-image]: https://godoc.org/github.com/AbdullahDiaa/garabic?status.svg
